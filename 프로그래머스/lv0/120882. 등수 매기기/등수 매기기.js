@@ -11,14 +11,10 @@ function solution(score) {
     const mappingSlice = mapping.slice(0)
     mapping.sort((a, b)=>b-a)
     const rank = {}
-    let count = 1
+    
     for(let i = 0; i<mapping.length; i++) {
-        if(mapping[i]===mapping[i-1]) {
-            count++
-            
-        }else{
-            rank[mapping[i]] = i + 1;
-            
+        if(mapping[i]!==mapping[i-1]) {
+            rank[mapping[i]] = i + 1;    
         }
     }
     for(let i = 0; i<mapping.length; i++) {
