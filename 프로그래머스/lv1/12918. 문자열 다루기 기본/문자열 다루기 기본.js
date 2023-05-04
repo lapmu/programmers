@@ -5,7 +5,7 @@ function solution(s) {
     if(s.length!==4&&s.length!==6){
         return false;
     }
-    const replacedS = s.replace(/[0-9]*/g, '');
+    const replacedS = s.replace(/[0-9]/g, '');
     if(replacedS.length!==0){
         answer = false;
     }
