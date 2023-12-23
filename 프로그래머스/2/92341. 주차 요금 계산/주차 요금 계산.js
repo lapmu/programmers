@@ -9,11 +9,13 @@ function solution(fees, records) {
         return arr
     }).reduce((obj,el)=>{
         const isInner = sequence.indexOf(el[1]);
-        if(isInner !== -1){
-            sequence.splice(isInner, 1);
+        
+        if(isInner === -1){
+            
+            sequence.push(el[1])
         }
         
-        sequence.push(el[1])
+        
         
         if(!obj[el[1]]){
            obj[el[1]] = 0;
