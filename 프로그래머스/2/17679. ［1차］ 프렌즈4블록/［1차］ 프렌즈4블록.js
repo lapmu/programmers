@@ -1,48 +1,54 @@
-// function solution(m, n, board) {
-//     var answer = 0;
-//     return answer;
-// }
 function solution(m, n, board) {
-    board = board.map(row => [...row]);
-    const offset = [[0, 0], [0, 1], [1, 0], [1, 1]];
     
-    let count = 0;
-    let flag = true;
-    while (flag) {
-        flag = false;
-        const target = [];
-        for (let i = 0; i < m - 1; i++) {
-            for (let j = 0; j < n - 1; j++) {
-                const blocks = offset.map(([dx, dy]) => board[i + dx][j + dy]);
-                if (blocks.every(block => !!block && block === blocks[0])) {
-                    offset.map(([dx, dy]) => target.push([i + dx, j + dy]));
-                    flag = true;
+    const splitBoardEl = board.map(el=>el.split(''))
+        
+    
+    while(1){
+        
+        const blockIdx = [];
+        
+        // 2*2가 같은 블록 찾아내기
+        for(let i = 0; i < m-1; i++){
+            
+            for(let j = 0; j < n-1; j++){
+                if(splitBoardEl[i][j] === 0) continue;
+                
+                if(splitBoardEl[i][j] === splitBoardEl[i][j+1] && splitBoardEl[i][j] === splitBoardEl[i+1][j] && splitBoardEl[i][j] === splitBoardEl[i+1][j+1]){
+                    blockIdx.push([i, j])
                 }
+                
             }
+            
         }
-        target.forEach(([x, y]) => {
-            const block = board[x][y];
-            if (block) {
-                board[x][y] = '';
-                count++;
-            }
-        });
-        for (let i = 0; i < n; i++) {
-            const stack = [];
-            for (let j = 0; j < m; j++) {
-                const block = board[j][i];
-                if (block) {
-                    stack.push(block);
+        
+        // 찾은 블록이 없다면 break
+        if(blockIdx.length === 0) break;
+
+        // 찾은 블록이 있다면 없애기
+        blockIdx.forEach(([x, y]) => {
+            splitBoardEl[x][y] = 0;
+            splitBoardEl[x][y+1] = 0;
+            splitBoardEl[x+1][y] = 0;
+            splitBoardEl[x+1][y+1] = 0;
+        })
+        
+        // 아래부터 비어있는 블록을 찾아내어 비어있는 블록 위에 있는 블록으로 채워넣기
+        for(let i = m-1; i > 0 ; i--){
+            for(let j = 0; j < n; j++){
+                if(splitBoardEl[i][j] === 0){
+                    for(let k = i-1; k >= 0; k--){
+                        if(splitBoardEl[k][j] !== 0){
+                            splitBoardEl[i][j] = splitBoardEl[k][j];
+                            splitBoardEl[k][j] = 0;
+                            break;
+                        }
+                    }
                 }
             }
-            for (let j = m - 1; j >= 0; j--) {
-                if (stack.length) {
-                    board[j][i] = stack.pop();
-                } else {
-                    board[j][i] = '';   
-                }
-            }
-        }
+        }   
     }
-    return count;
+
+    // 위의 내용 반복
+    
+    return splitBoardEl.map(blocks=>blocks.filter(block=>block===0).length).reduce((acc,cur)=>acc+cur);
 }
