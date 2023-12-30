@@ -45,11 +45,6 @@ function solution(files) {
             }else{
                 obj[convertHEAD] = [[HEAD, NUMBER, '']];
             }
-            
-                
-            HEAD = '';
-            NUMBER = '';
-            TAILIDX = 0;
                 
         }else{
                 
@@ -58,11 +53,6 @@ function solution(files) {
             }else{
                 obj[convertHEAD] = [...obj[convertHEAD], [HEAD, NUMBER, '']];
             }
-            
-                
-            HEAD = '';
-            NUMBER = '';
-            TAILIDX = 0;
                 
         }
         
